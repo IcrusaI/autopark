@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Профиль</title>
+
+</head>
+<body layout:fragment="content">
+<script>
+    function deleteCar(carId) {
+        fetch(`/api/cars/${carId}/owner`, {
+            method: 'DELETE',
+        })
+            .then(res => location.reload());
+    }
+
+    function deleteDelegate(dealerId) {
+        fetch(`/api/dealers/${dealerId}/delegate`, {
+            method: 'DELETE',
+        })
+            .then(res => location.reload());
+    }
+
+    function addCar(e) {
+        const carId = e.elements.namedItem('carId').value;
+        const userId = e.elements.namedItem('userId').value;
+
+        const formData = new FormData();
+        formData.set("userId", userId);
+
+        fetch(`/api/cars/${carId}/owner`, {
+            method: 'PUT',
+            body: formData
+        })
+            .then(res => location.reload());
+    }
+
+    function setDealer(e) {
+        const dealerId = e.elements.namedItem('dealerId').value;
+        const userId = e.elements.namedItem('userId').value;
+
+        const formData = new FormData();
+        formData.set("userId", userId);
+
+        fetch(`/api/dealers/${dealerId}/delegate`, {
+            method: 'PUT',
+            body: formData
+        })
+            .then(res => location.reload());
+    }
+</script>
+<div class="user-profile">
+    <h2 th:text="${user.getLastName()} + ' ' + ${user.getFirstName()} + ' ' + ${user.getSurName()}">Имя Фамилия
+        Отчество</h2>
+
+    <div class="user-details">
+        <p>ID пользователя: <span th:text="${user.getId()}">ID</span></p>
+        <p>Телефон: <span th:text="${user.getPhone()}">Телефон</span></p>
+        <p>Электронная почта: <span th:text="${user.getEmail()}">Email</span></p>
+        <p th:if="${user.getDelegateDealer()} != null">Представитель:
+            <span th:text="${user.getDelegateDealer().name}"></span>
+            <button onclick="deleteDelegate(this.getAttribute('data-id'))"
+                    th:data-id="${user.getDelegateDealer().getId()}">Удалить
+            </button>
+        </p>
+        <form onsubmit="setDealer(this);return false;" th:if="${user.getDelegateDealer()} == null">
+            <select name="dealerId" required>
+                <option th:each="dealer : ${dealers}" th:text="${dealer.getName()}"
+                        th:value="${dealer.getId()}"></option>
+            </select>
+            <input name="userId" readonly th:value="${user.getId()}" type="hidden">
+            <input type="submit" value="Назначить"/>
+        </form>
+    </div>
+</div>
+<h2>Машины</h2>
+<div th:each="car : ${user.getCars()}">
+    <span th:text="${car.getNumber()}"></span>
+    <span th:text="${car.getBuildDate()}"></span>
+    <button onclick="deleteCar(this.getAttribute('data-number'))" th:data-number="${car.getNumber()}">Удалить машину
+    </button>
+</div>
+<form onsubmit="addCar(this);return false;">
+    <select name="carId" required>
+        <option th:each="car : ${cars}" th:text="${car.getNumber()}" th:value="${car.getNumber()}"></option>
+    </select>
+    <input name="userId" readonly th:value="${user.getId()}" type="hidden">
+    <input type="submit" value="Добавить машину"/>
+</form>
+</body>
+</html>

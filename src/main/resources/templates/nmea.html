@@ -1,0 +1,22 @@
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>NMEA</title>
+</head>
+<body layout:fragment="content">
+<form action="/nmea" enctype="multipart/form-data" method="POST">
+    <table>
+        <tr>
+            <td>Выберите файл</td>
+            <td><input name="file" type="file"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Submit"/></td>
+        </tr>
+    </table>
+</form>
+<p th:if="${distance != null}" th:text="${distance}"></p>
+</body>
+</html>

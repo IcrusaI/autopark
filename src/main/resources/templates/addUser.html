@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Добавление нового человека</title>
+</head>
+<body layout:fragment="content">
+<h1>Добавить человека</h1>
+<form action="#" method="post" th:action="@{/users/add}" th:object="${user}">
+    <p>Имя: <input th:field="*{firstName}" type="text"/></p>
+    <p>Отчество: <input th:field="*{surName}" type="text"/></p>
+    <p>Фамилия: <input th:field="*{lastName}" type="text"/></p>
+    <p>Телефон: <input th:field="*{phone}" type="tel"/></p>
+    <p>Почта: <input th:field="*{email}" type="email"/></p>
+    <p><input type="submit" value="Submit"/></p>
+</form>
+</body>
+</html>

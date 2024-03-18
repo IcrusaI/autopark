@@ -1,0 +1,89 @@
+body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.sidebar {
+    display: flex;
+    width: 200px;
+    flex-direction: column;
+    background-color: #f0f0f0;
+    box-sizing: border-box;
+}
+
+.sidebar a {
+    width: 100%;
+    padding: 10px 5px;
+    transition: background .3s ease-in;
+}
+
+.sidebar a:hover {
+    background: #ccc;
+}
+
+main {
+    flex-grow: 1;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    color: #333;
+    background-color: #e6e6e6;
+    border-color: #adadad;
+}
+
+.disabled {
+    cursor: not-allowed;
+    color: #999;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.disabled:hover {
+    color: #999;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-around;
+        background-color: #f0f0f0;
+        padding: 10px 0;
+    }
+}

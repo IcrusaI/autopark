@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Люди</title>
+    <link rel="stylesheet" th:href="@{/usersPage.css}"/>
+</head>
+<body layout:fragment="content">
+<a href="/users/add">Добавить</a>
+<div class="card-container">
+    <div class="card" th:each="user : ${users}">
+        <div class="card-content">
+            <div class="id" th:text="${user.getId()}"></div>
+            <div class="name" th:text="${user.getFirstName()}"></div>
+            <div class="surname" th:text="${user.getSurName()}"></div>
+            <div class="lastname" th:text="${user.getLastName()}"></div>
+            <a th:href="@{/users/{id}(id=${user.getId()})}">Открыть</a>
+        </div>
+    </div>
+</div>
+
+<nav class="pagination">
+    <a class="btn btn-default" th:classappend="${currentPage == 0} ? disabled : ''"
+       th:href="@{/users(page=${currentPage - 1})}">Назад</a>
+    <div class="current-page" th:text="${currentPage} + 1"></div>
+    <a class="btn btn-default" th:classappend="${currentPage + 1 >= totalPages} ? disabled : ''"
+       th:href="@{/users(page=${currentPage + 1})}">Вперёд</a>
+</nav>
+</body>
+</html>

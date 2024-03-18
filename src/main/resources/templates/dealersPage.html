@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Дилеры</title>
+    <link rel="stylesheet" th:href="@{/usersPage.css}"/>
+</head>
+<body layout:fragment="content">
+<script>
+    function deleteCar(carId) {
+        fetch(`/api/cars/${carId}/dealer`, {
+            method: 'DELETE',
+        })
+            .then(res => location.reload());
+    }
+
+    function addCar(e) {
+        const carId = e.elements.namedItem('carId').value;
+        const dealerId = e.elements.namedItem('dealerId').value;
+
+        const formData = new FormData();
+        formData.set("dealerId", dealerId);
+
+        fetch(`/api/cars/${carId}/dealer`, {
+            method: 'PUT',
+            body: formData
+        })
+            .then(res => location.reload());
+    }
+</script>
+<a href="/dealers/add">Добавить</a>
+<div class="card-container">
+    <div class="card" th:each="dealer : ${dealers}">
+        <div class="card-content">
+            <span th:text="${dealer.getId()}"></span>
+            <span th:text="${dealer.getName()}"></span>
+            <a th:href="@{/users/{id}(id=${dealer.getDelegate().getId()})}" th:if="${dealer.getDelegate() != null}"
+               th:text="${dealer.getDelegate().getLastName()} + ' ' + ${dealer.getDelegate().getFirstName()} + ' ' + ${dealer.getDelegate().getSurName()}"></a>
+
+            <div th:each="car : ${dealer.getServicedCar()}">
+                <span th:text="${car.getNumber()}"></span>
+                <button onclick="deleteCar(this.getAttribute('data-number'))" th:data-number="${car.getNumber()}">
+                    Удалить
+                </button>
+            </div>
+            <form onsubmit="addCar(this);return false;">
+                <select name="carId" required>
+                    <option th:each="car : ${cars}" th:text="${car.getNumber()}" th:value="${car.getNumber()}"></option>
+                </select>
+                <input name="dealerId" readonly th:value="${dealer.getId()}" type="hidden">
+                <input type="submit" value="Добавить машину"/>
+            </form>
+        </div>
+    </div>
+</div>
+
+<nav class="pagination">
+    <a class="btn btn-default" th:classappend="${currentPage == 0} ? disabled : ''"
+       th:href="@{/dealers(page=${currentPage - 1})}">Назад</a>
+    <div class="current-page" th:text="${currentPage} + 1"></div>
+    <a class="btn btn-default" th:classappend="${currentPage + 1 >= totalPages} ? disabled : ''"
+       th:href="@{/dealers(page=${currentPage + 1})}">Вперёд</a>
+</nav>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Добавление нового автомобиля</title>
+</head>
+<body layout:fragment="content">
+<h1>Добавить автомобиль</h1>
+<form action="#" method="post" th:action="@{/cars/add}" th:object="${car}">
+    <p>Номер автомобиля: <input placeholder="x000xx000" th:field="*{number}" th:pattern="${carNumberRegEx}"
+                                type="text"/></p>
+    <p>Дата выпуска: <input th:field="*{buildDate}" type="date"/></p>
+    <p>Владелец:
+        <select th:field="*{owner}">
+            <option th:each="user : ${users}"
+                    th:text="${user.getLastName()}"
+                    th:value="${user.getId()}"></option>
+        </select>
+    </p>
+    <p><input type="submit" value="Submit"/></p>
+</form>
+</body>
+</html>

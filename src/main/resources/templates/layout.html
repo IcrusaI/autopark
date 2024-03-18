@@ -1,0 +1,20 @@
+<html lang="ru-RU"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Сервис Автопарка</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<nav class="sidebar">
+    <a href="/nmea">NMEA</a>
+    <a href="/cars">Автомобили</a>
+    <a href="/users">Люди</a>
+    <a href="/dealers">Дилеры</a>
+</nav>
+<main>
+    <div layout:fragment="content"></div>
+</main>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout.html}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Добавление нового дилера</title>
+</head>
+<body layout:fragment="content">
+<h1>Добавить дилера</h1>
+<form action="#" method="post" th:action="@{/dealers/add}" th:object="${dealer}">
+    <p>Имя: <input th:field="*{name}" type="text"/></p>
+    <p>Email: <input th:field="*{email}" type="email"/></p>
+    <p>Представитель:
+        <select th:field="*{delegate}">
+            <option th:each="user : ${users}"
+                    th:text="${user.getLastName()}"
+                    th:value="${user.getId()}"></option>
+        </select>
+    </p>
+    <p><input type="submit" value="Submit"/></p>
+</form>
+</body>
+</html>
